@@ -1,0 +1,40 @@
+#display {
+	display: block;
+	text-align: center;
+	margin-top: 10%;
+}
+
+#lightbulb {
+	display: inline;
+}
+
+img {
+	width: 10%;
+}
+
+#result {
+	text-align: center;
+	margin-top: 30px;
+}
+
+#type {
+	display: table-row;
+	text-align: center;
+}
+
+#type > div {
+	display: table-cell;
+	text-align: center;
+}
+
+#left_margin {
+	width: 39%;
+}
+
+#right_margin {
+	width: 20%;
+}
+
+#separator {
+	width: 19%;
+}
