@@ -1,9 +1,11 @@
 function flip(bit) {
 	var bulb = document.getElementById(bit);
-	if (bulb.src == "file:///home/ahalle/Desktop/andrewhalle.com/images/off.jpg") {
+	if (bulb.className == "off") {
 		bulb.src = "../images/on.jpg";
+		bulb.className = "on";
 	} else {
 		bulb.src = "../images/off.jpg";
+		bulb.className = "off";
 	}
 	calcResult();
 }
@@ -34,7 +36,7 @@ function switchBit(x) {
 }
 
 function translateBit(bit) {
-	if (bit == "file:///home/ahalle/Desktop/andrewhalle.com/images/off.jpg") {
+	if (bit == "off") {
 		return 0;
 	} else {
 		return 1;
@@ -42,14 +44,14 @@ function translateBit(bit) {
 }
 
 function calcResult() {
-	var bit0 = translateBit(document.getElementById("bit0").src);
-	var bit1 = translateBit(document.getElementById("bit1").src);
-	var bit2 = translateBit(document.getElementById("bit2").src);
-	var bit3 = translateBit(document.getElementById("bit3").src);
-	var bit4 = translateBit(document.getElementById("bit4").src);
-	var bit5 = translateBit(document.getElementById("bit5").src);
-	var bit6 = translateBit(document.getElementById("bit6").src);
-	var bit7 = translateBit(document.getElementById("bit7").src);
+	var bit0 = translateBit(document.getElementById("bit0").className);
+	var bit1 = translateBit(document.getElementById("bit1").className);
+	var bit2 = translateBit(document.getElementById("bit2").className);
+	var bit3 = translateBit(document.getElementById("bit3").className);
+	var bit4 = translateBit(document.getElementById("bit4").className);
+	var bit5 = translateBit(document.getElementById("bit5").className);
+	var bit6 = translateBit(document.getElementById("bit6").className);
+	var bit7 = translateBit(document.getElementById("bit7").className);
 	var signed = document.getElementById("signed").className == "active";
 	if (signed) {
 		var condition = (bit7 == 1);
