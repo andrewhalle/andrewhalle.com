@@ -1,40 +1,39 @@
 #display {
 	display: block;
 	text-align: center;
-	margin-top: 10%;
+	margin-top: 10vh;
 }
 
-#lightbulb {
+.lightbulb {
 	display: inline;
 }
 
 img {
-	width: 10%;
+	width: 10vw;
 }
 
 #result {
 	text-align: center;
-	margin-top: 30px;
+	margin-top: 10vh;
 }
 
 #type {
-	display: table-row;
-	text-align: center;
+	display: block;
 }
 
 #type > div {
-	display: table-cell;
 	text-align: center;
+	width: 20vw;
+	border: 1px solid black;
 }
 
-#left_margin {
-	width: 39%;
+#signed {
+	float: left;
+	background-color: red;
+	margin-left: 20vw;
 }
 
-#right_margin {
-	width: 20%;
-}
-
-#separator {
-	width: 19%;
+#unsigned {
+	float: right;
+	margin-right: 20vw;
 }
