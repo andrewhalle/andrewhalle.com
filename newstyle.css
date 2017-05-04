@@ -1,0 +1,48 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+h1, p, li {
+	font-family: "Droid Serif";
+}
+
+.nav_bar {
+	/*border: 5px solid rgb(0, 0, 0);*/
+	height: 100px;
+	margin-bottom: 30px;
+}
+
+.nav_item {
+	/*border: 5px solid rgb(0, 0, 0);*/
+	width: 19.8%;
+	height: 100%;
+	display: inline-block;
+	text-align: center;
+	padding-top: 1.5%;
+	color: rgb(83, 75, 98);
+	background-color: rgb(148, 147, 150);
+	font-size: 25px;
+}
+
+.accent {
+	color: rgb(172, 57, 49);
+}
+
+#title {
+	/*border: 5px solid rgb(0, 0, 0);*/
+	color: rgb(9, 9, 9);
+	width: 500px;
+	margin: auto;
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#hook {
+	/*border: 5px solid rgb(0, 0, 0);*/
+	width: 500px;
+	margin: auto;
+	text-align: center;
+}
