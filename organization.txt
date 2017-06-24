@@ -1,0 +1,13 @@
+home page
+    - cover photo takes up top half, scrolling cards take up bottom half, left and right side bars
+    - cards:
+        - about me
+        - experience
+        - school projects
+        - personal projects
+    - footer:
+        - link to github, linkedin
+        - link to download resume
+
+about me, experience, school projects, personal projects
+    - info cards, photos alternating left and right
