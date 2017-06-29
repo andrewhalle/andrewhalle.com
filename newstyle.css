@@ -1,52 +1,43 @@
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
-
 body {
-	background-color: #090909;
+	margin: 0px;
+	padding: 0px;
 }
 
-.sidebar {
-	height: 3840px;
-	background-color: #949396;
-}
-.card {
-	height: 500px;
-	position: absolute;
-	font-size: 30px;
-	background-color: #347fc4;
+nav {
+	background-color: #7c8087;
+	margin: 0px;
+	padding: 0px;
+	height: 50px;
+	overflow: auto;
 }
 
-#left-sidebar {
-	float: left;
+nav a {
+	height: 35px;
+	width: 80px;
+	text-align: center;
+	color: white;
+	text-decoration: none;
+	display: inline-block;
+	padding-top: 15px;
+	transition: color 0.3s;
+    -o-transform: color 0.3s;
+    -moz-transform: color 0.3s;
+    -webkit-transition: color 0.3s;
+    font-family: 'Roboto', sans-serif;
 }
 
-#right-sidebar {
-	float: right;
+nav a:visited {
+	color: white;
+	text-decoration: none;
 }
 
-#cover {
-	width: 300px;
-	height: 450px;
-	background-image: url(images/man-stool.jpg);
-	background-repeat: no-repeat;
-	position: fixed;
+nav a:hover {
+	color: #b1f28e;
+	text-decoration: none;
 }
 
-#about-me {
-	top: 450px;
-}
-
-#experience {
-	top: 1400px;
-}
-
-#class-projects {
-	top: 2350px;
-}
-
-#personal-projects {
-	top: 3300px;
+#nav-sidebar {
+	height: 10px;
+	width: 100px;
+	display: inline-block;
 }
