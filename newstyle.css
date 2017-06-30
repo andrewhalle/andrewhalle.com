@@ -41,3 +41,19 @@ nav a:hover {
 	width: 100px;
 	display: inline-block;
 }
+
+#cover {
+	font-family: "Roboto", sans-serif;
+	text-align: center;
+	font-size: 52px;
+	color: #7c8087;
+	margin: 0px;
+	padding: 0px;
+	height: 595px;
+	background-image: url("images/cover.png");
+}
+
+#cover span {
+	display: inline-block;
+	padding-top: 30px;
+}
