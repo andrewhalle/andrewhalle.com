@@ -13,12 +13,17 @@ var circles = [
 		radius: 100
 	}
 ];
-generateGasket(circles, 1);
+//generateGasket(circles, 1);
 
 //draw circles
 for (var i = 0; i < circles.length; i++) {
 	var circle = new Path.Circle(new Point(circles[i].center.x, circles[i].center.y), circles[i].radius);
 	circle.strokeColor = "black";
+}
+var points = outerRed(circles[0], circles[2], circles[1]);
+for (var i = 0; i < points.length; i++) {
+	var circle = new Path.Circle(new Point(points[i].x, points[i].y), 5);
+	circle.fillColor = "blue";
 }
 
 function distance(p1, p2) {
@@ -60,9 +65,14 @@ function threePointsToCircle(p1, p2, p3) {
 
 function outerRed(c1, c2, c3) {
 	//returns p, the outer red point of c1 with respect to the triplet of circles c1, c2, and c3
-	var angle = Math.atan2(c2.center.y - c3.center.y, c3.center.x - c2.center.x);
-	var yellow = {x: c2.center.x + c2.radius * Math.cos(angle), y: c2.center.y - c2.radius * Math.sin(angle)};
-	return yellow;
+	var angle1 = Math.atan2(c2.center.y - c3.center.y, c3.center.x - c2.center.x);
+	var angle2 = Math.atan2(c3.center.y - c2.center.y, c2.center.x - c3.center.x);
+	var yellow = {x: c2.center.x + c2.radius * Math.cos(angle1), y: c2.center.y - c2.radius * Math.sin(angle1)};
+	//blue point
+	var blue1 = {x: c1.center.x + c1.radius * Math.cos(Math.PI / 2 - angle1), y: c1.center.y + c1.radius * Math.sin(Math.PI / 2 - angle1)};
+	var blue2 = {x: c1.center.x + c1.radius * Math.cos(Math.PI / 2 - angle2), y: c1.center.y + c1.radius * Math.sin(Math.PI / 2 - angle2)};
+	//red point
+	return [blue1, blue2];
 }
 
 function outerSoddyCircle(c1, c2, c3) {
