@@ -11,7 +11,7 @@ var circles = [
 	{
 		center: {x: 450, y: (100 * Math.tan(60 * Math.PI / 180)) + 250},
 		radius: 100
-	},
+	}
 ];
 generateGasket(circles, 1);
 
@@ -58,8 +58,16 @@ function threePointsToCircle(p1, p2, p3) {
 	return {center: {x: x, y: y}, radius: r};
 }
 
+function outerRed(c1, c2, c3) {
+	//returns p, the outer red point of c1 with respect to the triplet of circles c1, c2, and c3
+	var angle = Math.atan2(c2.center.y - c3.center.y, c3.center.x - c2.center.x);
+	var yellow = {x: c2.center.x + c2.radius * Math.cos(angle), y: c2.center.y - c2.radius * Math.sin(angle)};
+	return yellow;
+}
+
 function outerSoddyCircle(c1, c2, c3) {
 	//returns c, the outer soddy circle for 3 mutually tangent circles
+	return threePointsToCircle(outerRed(c1, c2, c3), outerRed(c2, c1, c3), outerRed(c3, c1, c2));
 }
 
 function innerSoddyCircle(c1, c2, c3) {
@@ -75,6 +83,8 @@ function generateGasket(circles, limit) {
 	circles.push(innerSoddyCircle(circles[0], circles[1], circles[2]));
 
 	//set up the queue with 4 and 5, its very similar to depth-first search
-	var queue = [];
-	generateGasketHelper(circles, queue, limit);
+	if (limit > 1) {
+		var queue = [];
+		generateGasketHelper(circles, queue, limit);
+	}
 }
