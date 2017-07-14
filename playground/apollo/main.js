@@ -20,10 +20,10 @@ for (var i = 0; i < circles.length; i++) {
 	var circle = new Path.Circle(new Point(circles[i].center.x, circles[i].center.y), circles[i].radius);
 	circle.strokeColor = "black";
 }
-var points = outerRed(circles[0], circles[2], circles[1]);
-for (var i = 0; i < points.length; i++) {
-	var circle = new Path.Circle(new Point(points[i].x, points[i].y), 5);
-	circle.fillColor = "blue";
+var reds = outerRed(circles[2], circles[0], circles[1]);
+for (var i = 0; i < reds.length; i++) {
+	var circle = new Path.Circle(new Point(reds[i].x, reds[i].y), 5);
+	circle.fillColor = "red";
 }
 
 function distance(p1, p2) {
@@ -63,6 +63,33 @@ function threePointsToCircle(p1, p2, p3) {
 	return {center: {x: x, y: y}, radius: r};
 }
 
+function circleLineIntersection(c, p1, p2) {
+	//returns a list of points of intersection between the circle c and the line defined by the two points p1 and p2
+	//shifting to origin
+	p1.x -= c.center.x;
+	p2.x -= c.center.x;
+	p1.y -= c.center.y;
+	p2.y -= c.center.y;
+
+	var d_x = p2.x - p1.x;
+	var d_y = p1.y - p2.y;
+	var d_r = Math.sqrt(Math.pow(d_x, 2) + Math.pow(d_y, 2));
+	var D = p1.x * p2.y - p2.x * p1.y
+	var delta = Math.pow(c.radius, 2) * Math.pow(d_r, 2) - Math.pow(D, 2);
+
+	var x1 = (D * d_y + Math.sign(d_y) * d_x * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+	var x2 = (D * d_y - Math.sign(d_y) * d_x * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+	var y1 = (-D * d_x + Math.abs(d_y) * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+	var y2 = (-D * d_x + Math.abs(d_y) * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+	if (delta > 0) {
+		return [{x: x1 + c.center.x, y: y1 + c.center.y}, {x: x2 + c.center.x, y: y2 + c.center.y}];
+	} else if (delta == 0) {
+		return [{x: x1 + c.center.x, y: y1 + c.center.y}];
+	} else {
+		return [];
+	}
+}
+
 function outerRed(c1, c2, c3) {
 	//returns p, the outer red point of c1 with respect to the triplet of circles c1, c2, and c3
 	var angle1 = Math.atan2(c2.center.y - c3.center.y, c3.center.x - c2.center.x);
@@ -72,7 +99,23 @@ function outerRed(c1, c2, c3) {
 	var blue1 = {x: c1.center.x + c1.radius * Math.cos(Math.PI / 2 - angle1), y: c1.center.y + c1.radius * Math.sin(Math.PI / 2 - angle1)};
 	var blue2 = {x: c1.center.x + c1.radius * Math.cos(Math.PI / 2 - angle2), y: c1.center.y + c1.radius * Math.sin(Math.PI / 2 - angle2)};
 	//red point
-	return [blue1, blue2];
+	var reds1 = circleLineIntersection(c1, yellow, blue1);
+	var reds2 = circleLineIntersection(c1, yellow, blue2);
+	var reds = [];
+	console.log(reds1);
+	if (!((reds1[0].x == blue1.x) && (reds1[0].y == blue1.y))) {
+		reds.push(reds1[0]);
+	}
+	if (!((reds1[1].x == blue1.x && reds1[1].y == blue1.y))) {
+		reds.push(reds1[1]);
+	}
+	if (!((reds2[0].x == blue2.x && reds2[0].y == blue2.y))) {
+		reds.push(reds2[0]);
+	}
+	if (!((reds2[1].x == blue2.x && reds2[1].y == blue2.y))) {
+		reds.push(reds2[1]);
+	}
+	return reds;
 }
 
 function outerSoddyCircle(c1, c2, c3) {
