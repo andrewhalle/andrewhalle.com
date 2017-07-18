@@ -2,25 +2,25 @@ var canvasWidth = 1000;
 var canvasHeight = 700;
 var start = [
 	{
-		x: 100,
-		y: 100
-	},
-	{
-		x: 200,
-		y: 100
-	},
-	{
 		x: 300,
-		y: 100
+		y: 400
+	},
+	{
+		x: 400,
+		y: 550
+	},
+	{
+		x: 700,
+		y: 600
 	}
 ];
 var state = {paths: [], rendered: false};
 
 for (var i = 0; i < start.length; i++) {
-	var point = start[i]
-	var c = new Path.Circle(new Point(point.x, convertCartesianToCanvas(point.y)), 5);
-	c.fillColor = "green";
-	state.paths.push(c);
+	var point = start[i];
+	var path = new Path.Circle(new Point(point.x, convertCartesianToCanvas(point.y)), 5);
+	path.fillColor = "green";
+	state.paths.push(path);
 }
 
 function render() {
@@ -28,8 +28,13 @@ function render() {
 		return;
 	}
 	state.rendered = true;
-	var c = Path.Circle(new Point(100, 500), 10);
-	c.fillColor = "red";
+	var path;
+	path = new Path.Line(state.paths[0].position, state.paths[1].position);
+	path.strokeColor = "black";
+	path = new Path.Line(state.paths[1].position, state.paths[2].position);
+	path.strokeColor = "black";
+	path = new Path.Line(state.paths[2].position, state.paths[0].position);
+	path.strokeColor = "black";
 }
 
 var path_hit;
@@ -50,6 +55,10 @@ function onMouseDrag(event) {
 }
 
 function convertCartesianToCanvas(y) {
+	return canvasHeight - y;
+}
+
+function convertCanvasToCartesian(y) {
 	return canvasHeight - y;
 }
 
