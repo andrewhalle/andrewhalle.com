@@ -28,3 +28,28 @@ function angleBisector(p1, p2, p3) {
 		}
 	};
 }
+
+function twoLineIntersection(l1, l2) {
+	//returns the intersection point of two lines l1 and l2
+	var x = (l2.b - l1.b) / (l1.m - l2.m);
+	var y = l1.m * x + l1.b;
+	return {x: x, y: y};
+}
+
+function perpendicularLine(p, l) {
+	//returns a line perpendicular to l through p
+	var m = -(1 / l.m);
+	var b = p.y + (p.x / l.m);
+	return {
+		m: m,
+		b: b,
+		eval: function(x) {
+			return this.m * x + this.b
+		}
+	};
+}
+
+function distance(p1, p2) {
+	//returns Euclidean distance between two points
+	return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+}
