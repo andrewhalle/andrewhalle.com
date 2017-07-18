@@ -29,11 +29,23 @@ function render() {
 	}
 	state.rendered = true;
 	var path;
+	//triangle
 	path = new Path.Line(state.paths[0].position, state.paths[1].position);
 	path.strokeColor = "black";
 	path = new Path.Line(state.paths[1].position, state.paths[2].position);
 	path.strokeColor = "black";
 	path = new Path.Line(state.paths[2].position, state.paths[0].position);
+	path.strokeColor = "black";
+
+	//angle bisectors
+	p1 = {x: state.paths[0].position.x, y: convertCanvasToCartesian(state.paths[0].position.y)};
+	p2 = {x: state.paths[1].position.x, y: convertCanvasToCartesian(state.paths[1].position.y)};
+	p3 = {x: state.paths[2].position.x, y: convertCanvasToCartesian(state.paths[2].position.y)};
+	ab1 = angleBisector(p1, p2, p3);
+	ab2 = angleBisector(p2, p3, p1);
+	path = new Path.Line(new Point(0, convertCartesianToCanvas(ab1.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(ab1.eval(canvasWidth))));
+	path.strokeColor = "black";
+	path = new Path.Line(new Point(0, convertCartesianToCanvas(ab2.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(ab2.eval(canvasWidth))));
 	path.strokeColor = "black";
 }
 
