@@ -54,8 +54,18 @@ function render() {
 	var l2 = perpendicularLine(p4, l1);
 	var p5 = twoLineIntersection(l1, l2);
 	var r = distance(p4, p5);
-	console.log(r);
+	var ic = {center: p4, r: r};
 	path = new Path.Circle(new Point(p4.x, convertCartesianToCanvas(p4.y)), r);
+	path.strokeColor = "black";
+
+	//tangent circles
+	l1 = line(p1, p2);
+	l2 = line(p2, p3);
+	var l3 = line(p3, p1);
+	var t1 = circleLineIntersection(ic, l1)[0];
+	console.log(t1);
+	var c1 = {center: p1, r: distance(p1, t1)};
+	path = new Path.Circle(new Point(c1.center.x, convertCartesianToCanvas(c1.center.y)), c1.r);
 	path.strokeColor = "black";
 }
 

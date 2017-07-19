@@ -53,3 +53,27 @@ function distance(p1, p2) {
 	//returns Euclidean distance between two points
 	return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
 }
+
+function circleLineIntersection(c, l) {
+	//returns a list of points at which a line and circle intersect, or an empty list if they do not intersect
+	p1 = {x: 0, y: l.eval(0)};
+	p2 = {x: 1, y: l.eval(1)};
+	d_x = p2.x - p1.x;
+	d_y = p2.y - p1.y;
+	d_r = Math.sqrt(Math.pow(d_x, 2) + Math.pow(d_y, 2));
+	D = p1.x * p2.y - p2.x * p1.y;
+	delta = Math.pow(c.r, 2) * Math.pow(d_r, 2) - Math.pow(D, 2);
+	if (delta < 0) {
+		return [];
+	} else if (delta == 0) {
+		x = (D * d_y + Math.sign(d_y) * d_x * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+		y = (-D * d_x + Math.abs(d_y) * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+		return [{x: x + c.center.x, y: y + c.center.y}];
+	} else {
+		x1 = (D * d_y + Math.sign(d_y) * d_x * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+		y1 = (-D * d_x + Math.abs(d_y) * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+		x2 = (D * d_y - Math.sign(d_y) * d_x * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+		y2 = (-D * d_x - Math.abs(d_y) * Math.sqrt(delta)) / (Math.pow(d_r, 2));
+		return [{x: x1 + c.center.x, y: y1 + c.center.y}, {x: x2 + c.center.x, y: y2 + c.center.y}];
+	}
+}
