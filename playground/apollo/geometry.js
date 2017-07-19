@@ -56,8 +56,8 @@ function distance(p1, p2) {
 
 function circleLineIntersection(c, l) {
 	//returns a list of points at which a line and circle intersect, or an empty list if they do not intersect
-	p1 = {x: 0, y: l.eval(0)};
-	p2 = {x: 1, y: l.eval(1)};
+	p1 = {x: 0 - c.center.x, y: l.eval(0) - c.center.y};
+	p2 = {x: 1 - c.center.x, y: l.eval(1) - c.center.y};
 	d_x = p2.x - p1.x;
 	d_y = p2.y - p1.y;
 	d_r = Math.sqrt(Math.pow(d_x, 2) + Math.pow(d_y, 2));

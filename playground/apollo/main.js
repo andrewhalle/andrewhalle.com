@@ -14,33 +14,35 @@ var start = [
 		y: 600
 	}
 ];
-var state = {paths: [], rendered: false};
+var state = {anchors: [], paths: []};
 
-for (var i = 0; i < start.length; i++) {
-	var point = start[i];
-	var path = new Path.Circle(new Point(point.x, convertCartesianToCanvas(point.y)), 5);
-	path.fillColor = "green";
-	state.paths.push(path);
-}
+$(document).ready(function() {
+	for (var i = 0; i < start.length; i++) {
+		var point = start[i];
+		var path = new Path.Circle(new Point(point.x, convertCartesianToCanvas(point.y)), 5);
+		path.fillColor = "green";
+		state.anchors.push(path);
+	}
+	render();
+});
 
 function render() {
-	if (state.rendered) {
-		return;
-	}
-	state.rendered = true;
 	var path;
 	//triangle
-	path = new Path.Line(state.paths[0].position, state.paths[1].position);
+	path = new Path.Line(state.anchors[0].position, state.anchors[1].position);
 	path.strokeColor = "black";
-	path = new Path.Line(state.paths[1].position, state.paths[2].position);
+	state.paths.push(path);
+	path = new Path.Line(state.anchors[1].position, state.anchors[2].position);
 	path.strokeColor = "black";
-	path = new Path.Line(state.paths[2].position, state.paths[0].position);
+	state.paths.push(path);
+	path = new Path.Line(state.anchors[2].position, state.anchors[0].position);
 	path.strokeColor = "black";
+	state.paths.push(path);
 
 	//angle bisectors
-	var p1 = {x: state.paths[0].position.x, y: convertCanvasToCartesian(state.paths[0].position.y)};
-	var p2 = {x: state.paths[1].position.x, y: convertCanvasToCartesian(state.paths[1].position.y)};
-	var p3 = {x: state.paths[2].position.x, y: convertCanvasToCartesian(state.paths[2].position.y)};
+	var p1 = {x: state.anchors[0].position.x, y: convertCanvasToCartesian(state.anchors[0].position.y)};
+	var p2 = {x: state.anchors[1].position.x, y: convertCanvasToCartesian(state.anchors[1].position.y)};
+	var p3 = {x: state.anchors[2].position.x, y: convertCanvasToCartesian(state.anchors[2].position.y)};
 	var ab1 = angleBisector(p1, p2, p3);
 	var ab2 = angleBisector(p2, p3, p1);
 
@@ -48,6 +50,7 @@ function render() {
 	var p4 = twoLineIntersection(ab1, ab2);
 	path = new Path.Circle(new Point(p4.x, convertCartesianToCanvas(p4.y)), 5);
 	path.fillColor = "red";
+	state.paths.push(path);
 
 	//inscribed circle
 	var l1 = line(p1, p2);
@@ -57,16 +60,17 @@ function render() {
 	var ic = {center: p4, r: r};
 	path = new Path.Circle(new Point(p4.x, convertCartesianToCanvas(p4.y)), r);
 	path.strokeColor = "black";
+	state.paths.push(path);
 
 	//tangent circles
-	l1 = line(p1, p2);
-	l2 = line(p2, p3);
-	var l3 = line(p3, p1);
-	var t1 = circleLineIntersection(ic, l1)[0];
-	console.log(t1);
-	var c1 = {center: p1, r: distance(p1, t1)};
-	path = new Path.Circle(new Point(c1.center.x, convertCartesianToCanvas(c1.center.y)), c1.r);
-	path.strokeColor = "black";
+	// l1 = line(p1, p2);
+	// l2 = line(p2, p3);
+	// var l3 = line(p3, p1);
+	// console.log(circleLineIntersection(ic, l1));
+	// var t1 = circleLineIntersection(ic, l1)[0];
+	// var c1 = {center: p1, r: distance(p1, t1)};
+	// path = new Path.Circle(new Point(c1.center.x, convertCartesianToCanvas(c1.center.y)), c1.r);
+	// path.strokeColor = "black";
 }
 
 var path_hit;
@@ -83,6 +87,10 @@ function onMouseDown(event) {
 function onMouseDrag(event) {
 	if (path_hit && !state.rendered) {
 		path_hit.position += event.delta;
+		for (var i = 0; i < state.paths.length; i++) {
+			state.paths[i].remove();
+		}
+		render();
 	}
 }
 
