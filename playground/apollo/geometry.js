@@ -63,17 +63,18 @@ function circleLineIntersection(c, l) {
 	d_r = Math.sqrt(Math.pow(d_x, 2) + Math.pow(d_y, 2));
 	D = p1.x * p2.y - p2.x * p1.y;
 	delta = Math.pow(c.r, 2) * Math.pow(d_r, 2) - Math.pow(D, 2);
-	if (delta < 0) {
-		return [];
-	} else if (delta == 0) {
+	if (Math.abs(delta) < 1e-7) {
+		delta = 0;
 		x = (D * d_y + Math.sign(d_y) * d_x * Math.sqrt(delta)) / (Math.pow(d_r, 2));
 		y = (-D * d_x + Math.abs(d_y) * Math.sqrt(delta)) / (Math.pow(d_r, 2));
 		return [{x: x + c.center.x, y: y + c.center.y}];
-	} else {
+	} else if (delta > 0) {
 		x1 = (D * d_y + Math.sign(d_y) * d_x * Math.sqrt(delta)) / (Math.pow(d_r, 2));
 		y1 = (-D * d_x + Math.abs(d_y) * Math.sqrt(delta)) / (Math.pow(d_r, 2));
 		x2 = (D * d_y - Math.sign(d_y) * d_x * Math.sqrt(delta)) / (Math.pow(d_r, 2));
 		y2 = (-D * d_x - Math.abs(d_y) * Math.sqrt(delta)) / (Math.pow(d_r, 2));
 		return [{x: x1 + c.center.x, y: y1 + c.center.y}, {x: x2 + c.center.x, y: y2 + c.center.y}];
+	} else {
+		return [];
 	}
 }
