@@ -219,6 +219,43 @@ function render() {
 	path = new Path.Circle(new Point(osc.center.x, convertCartesianToCanvas(osc.center.y)), osc.r);
 	path.strokeColor = "black";
 	state.paths.push(path);
+
+	//apollonian gasket
+	var n1 = {
+		main: isc,
+		parents: [c1, c2, c3],
+		level: 1
+	};
+	var n2 = {
+		main: osc,
+		parents: [c1, c2, c3],
+		level: 1
+	};
+	expand(n1, 4);
+	expand(n2, 5);
+}
+
+function expand(node, limit) {
+	if (node.level >= limit) {
+		return;
+	}
+	var t1, t2, t3, tc, rc, path, n;
+	for (var i = 0; i < node.parents.length; i++) {
+		t1 = twoCircleTangent(node.main, node.parents[i]);
+		t2 = twoCircleTangent(node.main, node.parents[(i + 1) % node.parents.length]);
+		t3 = twoCircleTangent(node.parents[i], node.parents[(i + 1) % node.parents.length]);
+		tc = threePointsToCircle(t1, t2, t3);
+		rc = reflectCircle(node.parents[(i + 2) % node.parents.length], tc);
+		path = new Path.Circle(new Point(rc.center.x, convertCartesianToCanvas(rc.center.y)), rc.r);
+		path.strokeColor = "black";
+		state.paths.push(path);
+		n = {
+			main: rc,
+			parents: [node.main, node.parents[i], node.parents[(i + 1) % node.parents.length]],
+			level: node.level + 1
+		};
+		expand(n, limit);
+	}
 }
 
 var path_hit;

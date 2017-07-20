@@ -117,3 +117,38 @@ function pointInCircle(p, c) {
 	var dist = distance(p, c.center);
 	return dist < c.r;
 }
+
+function twoCircleTangent(c1, c2) {
+	//returns the point of tangency between two circles c1 and c2
+	if (c2.center.x < c1.center.x) {
+		return twoCircleTangent(c2, c1);
+	}
+	if (pointInCircle(c1.center, c2)) {
+		var angle = Math.atan2(c2.center.y - c1.center.y, c2.center.x - c1.center.x);
+		return {x: c1.center.x - c1.r * Math.cos(angle), y: c1.center.y - c1.r * Math.sin(angle)};
+	} else if (pointInCircle(c2.center, c1)) {
+		var angle = Math.atan2(c2.center.y - c1.center.y, c2.center.x - c1.center.x);
+		return {x: c2.center.x + c2.r * Math.cos(angle), y: c2.center.y + c2.r * Math.sin(angle)};
+	} else {
+		var angle = Math.atan2(c2.center.y - c1.center.y, c2.center.x - c1.center.x);
+		return {x: c1.center.x + c1.r * Math.cos(angle), y: c1.center.y + c1.r * Math.sin(angle)};
+	}
+}
+
+function reflectPoint(p, c) {
+	//returns p', the reflection of p through c
+	var angle = Math.atan2(p.y - c.center.y, p.x - c.center.x);
+	var length = Math.pow(c.r, 2) / distance(p, c.center);
+	return {x: c.center.x + length * Math.cos(angle), y: c.center.y + length * Math.sin(angle)};
+}
+
+function reflectCircle(c1, c2) {
+	//returns c3, the reflection of c1 through c2
+	var p1 = {x: c1.center.x + c1.r, y: c1.center.y};
+	var p2 = {x: c1.center.x - c1.r, y: c1.center.y};
+	var p3 = {x: c1.center.x, y: c1.center.y + c1.r};
+	var p1_prime = reflectPoint(p1, c2);
+	var p2_prime = reflectPoint(p2, c2);
+	var p3_prime = reflectPoint(p3, c2);
+	return threePointsToCircle(p1_prime, p2_prime, p3_prime);
+}
