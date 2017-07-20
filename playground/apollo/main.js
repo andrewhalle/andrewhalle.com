@@ -2,31 +2,52 @@ var canvasWidth = 1000;
 var canvasHeight = 700;
 var start = [
 	{
-		x: 300,
-		y: 400
+		x: 320,
+		y: 306
 	},
 	{
-		x: 400,
-		y: 550
+		x: 470,
+		y: 536
 	},
 	{
-		x: 700,
-		y: 600
+		x: 624,
+		y: 307
 	}
 ];
-var state = {anchors: [], paths: []};
+var state = {
+	anchors: new Group(),
+	paths: [
+		new Group(),
+		new Group(),
+		new Group(),
+		new Group(),
+		new Group(),
+		new Group()
+	],
+	colors: [
+		randomColor(),
+		randomColor(),
+		randomColor(),
+		randomColor(),
+		randomColor(),
+		randomColor(),
+		randomColor()
+	]
+};
 
 $(document).ready(function() {
+	$("#change").click(changeColors);
 	for (var i = 0; i < start.length; i++) {
 		var point = start[i];
 		var path = new Path.Circle(new Point(point.x, convertCartesianToCanvas(point.y)), 5);
-		path.fillColor = "green";
-		state.anchors.push(path);
+		state.anchors.addChild(path);
 	}
+	state.anchors.fillColor = state.colors[6];
 	render();
 });
 
 function render() {
+	state.anchors.fillColor = state.colors[6];
 	var path;
 	//triangle
 	// path = new Path.Line(state.anchors[0].position, state.anchors[1].position);
@@ -40,9 +61,9 @@ function render() {
 	// state.paths.push(path);
 
 	//angle bisectors
-	var p1 = {x: state.anchors[0].position.x, y: convertCanvasToCartesian(state.anchors[0].position.y)};
-	var p2 = {x: state.anchors[1].position.x, y: convertCanvasToCartesian(state.anchors[1].position.y)};
-	var p3 = {x: state.anchors[2].position.x, y: convertCanvasToCartesian(state.anchors[2].position.y)};
+	var p1 = {x: state.anchors.children[0].position.x, y: convertCanvasToCartesian(state.anchors.children[0].position.y)};
+	var p2 = {x: state.anchors.children[1].position.x, y: convertCanvasToCartesian(state.anchors.children[1].position.y)};
+	var p3 = {x: state.anchors.children[2].position.x, y: convertCanvasToCartesian(state.anchors.children[2].position.y)};
 	var ab1 = angleBisector(p1, p2, p3);
 	var ab2 = angleBisector(p2, p3, p1);
 
@@ -70,16 +91,16 @@ function render() {
 	var c1 = {center: p1, r: distance(p1, t1)};
 	path = new Path.Circle(new Point(c1.center.x, convertCartesianToCanvas(c1.center.y)), c1.r);
 	path.strokeColor = "black";
-	state.paths.push(path);
+	state.paths[0].addChild(path);
 	var c2 = {center: p2, r: distance(p2, t1)};
 	path = new Path.Circle(new Point(c2.center.x, convertCartesianToCanvas(c2.center.y)), c2.r);
 	path.strokeColor = "black";
-	state.paths.push(path);
+	state.paths[0].addChild(path);
 	var t2 = circleLineIntersection(ic, l3)[0];
 	var c3 = {center: p3, r: distance(p3, t2)};
 	path = new Path.Circle(new Point(c3.center.x, convertCartesianToCanvas(c3.center.y)), c3.r);
 	path.strokeColor = "black";
-	state.paths.push(path);
+	state.paths[0].addChild(path);
 
 	//blue lines
 	var bl1 = perpendicularLine(p1, l2);
@@ -215,10 +236,10 @@ function render() {
 	var osc = threePointsToCircle(outer[0], outer[1], outer[2]);
 	path = new Path.Circle(new Point(isc.center.x, convertCartesianToCanvas(isc.center.y)), isc.r);
 	path.strokeColor = "black";
-	state.paths.push(path);
+	state.paths[1].addChild(path);
 	path = new Path.Circle(new Point(osc.center.x, convertCartesianToCanvas(osc.center.y)), osc.r);
 	path.strokeColor = "black";
-	state.paths.push(path);
+	state.paths[1].addChild(path);
 
 	//apollonian gasket
 	var n1 = {
@@ -233,6 +254,19 @@ function render() {
 	};
 	expand(n1, 4);
 	expand(n2, 5);
+	state.paths[5].fillColor = state.colors[5];
+	state.paths[5].bringToFront();
+	state.paths[4].fillColor = state.colors[4];
+	state.paths[4].bringToFront();
+	state.paths[3].fillColor = state.colors[3];
+	state.paths[3].bringToFront();
+	state.paths[2].fillColor = state.colors[2];
+	state.paths[2].bringToFront();
+	state.paths[1].fillColor = state.colors[1];
+	state.paths[1].sendToBack();
+	state.paths[0].fillColor = state.colors[0];
+	state.paths[0].bringToFront();
+	state.anchors.bringToFront();
 }
 
 function expand(node, limit) {
@@ -248,7 +282,7 @@ function expand(node, limit) {
 		rc = reflectCircle(node.parents[(i + 2) % node.parents.length], tc);
 		path = new Path.Circle(new Point(rc.center.x, convertCartesianToCanvas(rc.center.y)), rc.r);
 		path.strokeColor = "black";
-		state.paths.push(path);
+		state.paths[node.level + 1].addChild(path);
 		n = {
 			main: rc,
 			parents: [node.main, node.parents[i], node.parents[(i + 1) % node.parents.length]],
@@ -273,7 +307,7 @@ function onMouseDrag(event) {
 	if (path_hit && !state.rendered) {
 		path_hit.position += event.delta;
 		for (var i = 0; i < state.paths.length; i++) {
-			state.paths[i].remove();
+			state.paths[i].removeChildren();
 		}
 		render();
 	}
@@ -293,4 +327,25 @@ function convertCanvasToCartesian(y) {
 	return canvasHeight - y;
 }
 
-$("#render").click(render);
+function randomColor() {
+  var text = "#";
+  var possible = "abcdef0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
+function changeColors() {
+	state.colors = [
+		randomColor(),
+		randomColor(),
+		randomColor(),
+		randomColor(),
+		randomColor(),
+		randomColor(),
+		randomColor()
+	];
+	render();
+}
