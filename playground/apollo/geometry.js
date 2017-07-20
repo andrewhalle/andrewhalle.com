@@ -78,3 +78,42 @@ function circleLineIntersection(c, l) {
 		return [];
 	}
 }
+
+function pointBetween(p, p1, p2) {
+	//returns true if p is on the line segment defined by p1 and p2
+	var l = line(p1, p2);
+	if (p.y == l.eval(p1.x)) {
+		if (p2.x >= p1.x) {
+			return p.x > p1.x && p.x < p2.x;
+		} else {
+			return p.x > p2.x && p.x < p1.x;
+		}
+	}
+}
+
+function pointsEqual(p1, p2) {
+	//returns true if p1 and p2 are equal to some tolerance
+	xDiff = p1.x - p2.x;
+	yDiff = p1.y - p2.y;
+	return Math.abs(xDiff) < 1e-7 && Math.abs(yDiff) < 1e-7
+}
+
+function threePointsToCircle(p1, p2, p3) {
+	//returns c, the circle passing through points p1, p2, and p3
+	var A = math.det([[p1.x, p1.y, 1], [p2.x, p2.y, 1], [p3.x, p3.y, 1]]);
+	var B = -1 * math.det([[Math.pow(p1.x, 2) + Math.pow(p1.y, 2), p1.y, 1], [Math.pow(p2.x, 2) + Math.pow(p2.y, 2), p2.y, 1], [Math.pow(p3.x, 2) + Math.pow(p3.y, 2), p3.y, 1]]);
+	var C = math.det([[Math.pow(p1.x, 2) + Math.pow(p1.y, 2), p1.x, 1], [Math.pow(p2.x, 2) + Math.pow(p2.y, 2), p2.x, 1], [Math.pow(p3.x, 2) + Math.pow(p3.y, 2), p3.x, 1]]);
+	var D = -1 * math.det([[Math.pow(p1.x, 2) + Math.pow(p1.y, 2), p1.x, p1.y], [Math.pow(p2.x, 2) + Math.pow(p2.y, 2), p2.x, p2.y], [Math.pow(p3.x, 2) + Math.pow(p3.y, 2), p3.x, p3.y]]);
+
+	var x = (-B) / (2 * A);
+	var y = (-C) / (2 * A);
+	var r = Math.sqrt((Math.pow(B, 2) + Math.pow(C, 2) - 4 * A * D) / (4 * Math.pow(A, 2)));
+
+	return {center: {x: x, y: y}, r: r};
+}
+
+function pointInCircle(p, c) {
+	//returns true if point is within bounds of circle
+	var dist = distance(p, c.center);
+	return dist < c.r;
+}

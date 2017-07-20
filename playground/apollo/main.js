@@ -80,6 +80,145 @@ function render() {
 	path = new Path.Circle(new Point(c3.center.x, convertCartesianToCanvas(c3.center.y)), c3.r);
 	path.strokeColor = "black";
 	state.paths.push(path);
+
+	//blue lines
+	var bl1 = perpendicularLine(p1, l2);
+	// path = new Path.Line(new Point(0, convertCartesianToCanvas(bl1.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(bl1.eval(canvasWidth))));
+	// path.strokeColor = "blue";
+	// state.paths.push(path);
+	var bl2 = perpendicularLine(p2, l3);
+	// path = new Path.Line(new Point(0, convertCartesianToCanvas(bl2.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(bl2.eval(canvasWidth))));
+	// path.strokeColor = "blue";
+	// state.paths.push(path);
+	var bl3 = perpendicularLine(p3, l1);
+	// path = new Path.Line(new Point(0, convertCartesianToCanvas(bl3.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(bl3.eval(canvasWidth))));
+	// path.strokeColor = "blue";
+	// state.paths.push(path);
+
+	//yellow points
+	t1 = circleLineIntersection(ic, l1)[0];
+	t2 = circleLineIntersection(ic, l2)[0];
+	var t3 = circleLineIntersection(ic, l3)[0];
+	// path = new Path.Circle(new Point(t1.x, convertCartesianToCanvas(t1.y)), 5);
+	// path.fillColor = "yellow";
+	// state.paths.push(path);
+	// path = new Path.Circle(new Point(t2.x, convertCartesianToCanvas(t2.y)), 5);
+	// path.fillColor = "yellow";
+	// state.paths.push(path);
+	// path = new Path.Circle(new Point(t3.x, convertCartesianToCanvas(t3.y)), 5);
+	// path.fillColor = "yellow";
+	// state.paths.push(path);
+
+	//blue points
+	var bps = [];
+	var temp = circleLineIntersection(c1, bl1);
+	for (var i = 0; i < temp.length; i++) {
+		bps.push(temp[i]);
+	}
+	temp = circleLineIntersection(c2, bl2);
+	for (var i = 0; i < temp.length; i++) {
+		bps.push(temp[i]);
+	}
+	temp = circleLineIntersection(c3, bl3);
+	for (var i = 0; i < temp.length; i++) {
+		bps.push(temp[i]);
+	}
+	// for (var i = 0; i < bps.length; i++) {
+	// 	path = new Path.Circle(new Point(bps[i].x, convertCartesianToCanvas(bps[i].y)), 5);
+	// 	path.fillColor = "blue";
+	// 	state.paths.push(path);
+	// }
+
+	//red lines
+	var rl1, rl2, rl3, rl4, rl5, rl6;
+	rl1 = line(t2, bps[0]);
+	rl2 = line(t2, bps[1]);
+	rl3 = line(t3, bps[2]);
+	rl4 = line(t3, bps[3]);
+	rl5 = line(t1, bps[4]);
+	rl6 = line(t1, bps[5]);
+	// path = new Path.Line(new Point(0, convertCartesianToCanvas(rl1.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(rl1.eval(canvasWidth))));
+	// path.strokeColor = "red";
+	// state.paths.push(path);
+	// path = new Path.Line(new Point(0, convertCartesianToCanvas(rl2.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(rl2.eval(canvasWidth))));
+	// path.strokeColor = "red";
+	// state.paths.push(path);
+	// path = new Path.Line(new Point(0, convertCartesianToCanvas(rl3.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(rl3.eval(canvasWidth))));
+	// path.strokeColor = "red";
+	// state.paths.push(path);
+	// path = new Path.Line(new Point(0, convertCartesianToCanvas(rl4.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(rl4.eval(canvasWidth))));
+	// path.strokeColor = "red";
+	// state.paths.push(path);
+	// path = new Path.Line(new Point(0, convertCartesianToCanvas(rl5.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(rl5.eval(canvasWidth))));
+	// path.strokeColor = "red";
+	// state.paths.push(path);
+	// path = new Path.Line(new Point(0, convertCartesianToCanvas(rl6.eval(0))), new Point(canvasWidth, convertCartesianToCanvas(rl6.eval(canvasWidth))));
+	// path.strokeColor = "red";
+	// state.paths.push(path);
+
+	//red points
+	var rps = [];
+	var temp = circleLineIntersection(c1, rl1);
+	for (var i = 0; i < temp.length; i++) {
+		if (!pointsEqual(temp[i], bps[0])) {
+			rps.push(temp[i]);
+		}
+	}
+	temp = circleLineIntersection(c1, rl2);
+	for (var i = 0; i < temp.length; i++) {
+		if (!pointsEqual(temp[i], bps[1])) {
+			rps.push(temp[i]);
+		}
+	}
+	temp = circleLineIntersection(c2, rl3);
+	for (var i = 0; i < temp.length; i++) {
+		if (!pointsEqual(temp[i], bps[2])) {
+			rps.push(temp[i]);
+		}
+	}
+	temp = circleLineIntersection(c2, rl4);
+	for (var i = 0; i < temp.length; i++) {
+		if (!pointsEqual(temp[i], bps[3])) {
+			rps.push(temp[i]);
+		}
+	}
+	temp = circleLineIntersection(c3, rl5);
+	for (var i = 0; i < temp.length; i++) {
+		if (!pointsEqual(temp[i], bps[4])) {
+			rps.push(temp[i]);
+		}
+	}
+	temp = circleLineIntersection(c3, rl6);
+	for (var i = 0; i < temp.length; i++) {
+		if (!pointsEqual(temp[i], bps[5])) {
+			rps.push(temp[i]);
+		}
+	}
+	// for (var i = 0; i < rps.length; i++) {
+	// 	path = new Path.Circle(new Point(rps[i].x, convertCartesianToCanvas(rps[i].y)), 5);
+	// 	path.fillColor = "red";
+	// 	state.paths.push(path);
+	// }
+
+	//soddy circles
+	var inner = [];
+	var outer = [];
+	var tc = threePointsToCircle(t1, t2, t3);
+	for (var i = 0; i < rps.length; i++) {
+		if (pointInCircle(rps[i], tc)) {
+			inner.push(rps[i]);
+		} else {
+			outer.push(rps[i]);
+		}
+	}
+	var isc = threePointsToCircle(inner[0], inner[1], inner[2]);
+	var osc = threePointsToCircle(outer[0], outer[1], outer[2]);
+	path = new Path.Circle(new Point(isc.center.x, convertCartesianToCanvas(isc.center.y)), isc.r);
+	path.strokeColor = "black";
+	state.paths.push(path);
+	path = new Path.Circle(new Point(osc.center.x, convertCartesianToCanvas(osc.center.y)), osc.r);
+	path.strokeColor = "black";
+	state.paths.push(path);
 }
 
 var path_hit;
