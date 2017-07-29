@@ -4,24 +4,38 @@ var fileAssociations = {
 	"flask.png": "flask-grey.png",
 	"flask-grey.png": "flask.png",
 	"node.png": "node-grey.png",
-	"node-grey.png": "node.png"
+	"node-grey.png": "node.png",
+	"java.png": "java-grey.png",
+	"java-grey.png": "java.png",
+	"django-logo-positive.png": "django-logo-positive-grey.png",
+	"django-logo-positive-grey.png": "django-logo-positive.png"
 }
 
 var skills = [
 	{
-		name: "Python",
+		name: "python",
 		image: "python-logo-inkscape-grey.png",
 		link: "https://www.python.org/"
 	},
 	{
-		name: "Flask",
+		name: "flask",
 		image: "flask-grey.png",
 		link: "http://flask.pocoo.org/"
+	},
+	{
+		name: "django",
+		image: "django-logo-positive-grey.png",
+		link: "https://www.djangoproject.com/"
 	},
 	{
 		name: "node.js",
 		image: "node-grey.png",
 		link: "https://nodejs.org/en/"
+	},
+	{
+		name: "java",
+		image: "java-grey.png",
+		link: "https://www.java.com/en/"
 	}
 ];
 
@@ -49,6 +63,7 @@ function setup() {
 	});
 
 	$("#sidebar ul li").click(function() {
+		setAnchorPositions();
 		var index = $("#sidebar ul li").index(this);
 		$("#viewport").animate({
 			scrollTop: scrollState.anchors[index]
@@ -77,7 +92,7 @@ function verticallyAlignCover() {
 }
 
 function tableSkills() {
-	skillsPerRow = Math.floor(($("#viewport").width() - 20) / 100);
+	skillsPerRow = Math.floor(($("#viewport").width() * 0.75) / 100);
 	nRows = Math.ceil(skills.length / skillsPerRow);
 	var innerHTML = "";
 	for (var i = 0; i < nRows - 1; i++) {
@@ -97,32 +112,43 @@ function tableSkills() {
 		var skill = skills[i];
 		innerHTML += "<td class=\"last-row\">";
 		innerHTML += "<a href=\"" + skill.link + "\">";
-		innerHTML += "<img src=\"" + skill.image + "\">";
+		innerHTML += "<img id=\"" + skill.name + "\" src=\"" + skill.image + "\">";
 		innerHTML += "</a>"
+		innerHTML += "<p class=\"skill-name\"></p>"
 		innerHTML += "</td>"
 	}
 	innerHTML += "</tr>";
 	$("#skills-table").html(innerHTML);
 	$(".last-row").css("width", ((skillsPerRow * 100) / (skills.length % skillsPerRow)).toString() + "px");
-	$("#skills-table").css("width", ($("#viewport").width() - 20).toString() + "px");
+	$("#skills-table").css("width", ($("#viewport").width() * 0.75).toString() + "px");
 
-	$("#skills-table tr td img").hover(function() {
+	$("#skills-table tr td a img").mouseenter(function() {
 		var filename = this.src.split("/");
 		filename = filename[filename.length - 1];
 		this.src = fileAssociations[filename];
+		var elems = $(this).parent().parent().children();
+		$(elems[1]).html(this.id);
+	});
+
+	$("#skills-table tr td a img").mouseleave(function() {
+		var filename = this.src.split("/");
+		filename = filename[filename.length - 1];
+		this.src = fileAssociations[filename];
+		var elems = $(this).parent().parent().children();
+		$(elems[1]).html("");
 	});
 }
 
 function setAnchorPositions() {
+	var h = $(".space-fill").height();
 	scrollState.anchors[0] = 0;
-	scrollState.anchors[1] = $("#about").height();
+	scrollState.anchors[1] = $("#about").height() - h;
 	scrollState.anchors[2] = $("#skills").height() + scrollState.anchors[1];
 	scrollState.anchors[3] = $("#experience").height() + scrollState.anchors[2];
 	scrollState.anchors[4] = $("#projects").height() + scrollState.anchors[3];
 }
 
 function renderSidebar() {
-	console.log("here");
 	for (var i = 0; i < scrollState.anchors.length; i++) {
 		if (scrollState.anchors[i] > scrollState.position) {
 			$("#sidebar ul li").css("font-weight", "normal");
