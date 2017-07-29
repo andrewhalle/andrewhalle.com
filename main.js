@@ -25,17 +25,49 @@ var skills = [
 	}
 ];
 
+var scrollState = {
+	position: 0,
+	anchors: [0, 0, 0, 0, 0],
+	anchorIndices: {
+		"about": 0,
+		"skills": 1,
+		"experience": 2,
+		"projects": 3,
+		"playground": 4
+	}
+};
+
 $(document).ready(setup);
 
 function setup() {
 	layout();
 
 	$(window).resize(layout);
+	$("#viewport").scroll(function(event) {
+    	scrollState.position = $("#viewport").scrollTop();
+    	renderSidebar();
+	});
+
+	$("#sidebar ul li").click(function() {
+		var index = $("#sidebar ul li").index(this);
+		$("#viewport").animate({
+			scrollTop: scrollState.anchors[index]
+		}, 1000);
+	});
 }
 
 function layout() {
+	viewportWidth();
 	verticallyAlignCover();
 	tableSkills();
+	setAnchorPositions();
+	renderSidebar();
+}
+
+function viewportWidth() {
+	var windowWidth = $(window).width();
+	$("#photo").css("width", (windowWidth - 300).toString() + "px");
+	$("#viewport").css("width", (windowWidth - 300).toString() + "px");
 }
 
 function verticallyAlignCover() {
@@ -79,5 +111,24 @@ function tableSkills() {
 		filename = filename[filename.length - 1];
 		this.src = fileAssociations[filename];
 	});
+}
+
+function setAnchorPositions() {
+	scrollState.anchors[0] = 0;
+	scrollState.anchors[1] = $("#about").height();
+	scrollState.anchors[2] = $("#skills").height() + scrollState.anchors[1];
+	scrollState.anchors[3] = $("#experience").height() + scrollState.anchors[2];
+	scrollState.anchors[4] = $("#projects").height() + scrollState.anchors[3];
+}
+
+function renderSidebar() {
+	console.log("here");
+	for (var i = 0; i < scrollState.anchors.length; i++) {
+		if (scrollState.anchors[i] > scrollState.position) {
+			$("#sidebar ul li").css("font-weight", "normal");
+			$($("#sidebar ul li")[i - 1]).css("font-weight", "bold");
+			return;
+		}
+	}
 }
 
