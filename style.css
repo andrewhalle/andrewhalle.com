@@ -13,13 +13,16 @@ html, body {
 	left: 0px;
 	width: 300px;
 	height: 100%;
-	font-size: 32px;
 	/*border: 1px solid black;*/
 }
 
 #sidebar ul {
 	list-style: none;
+	padding: 0px;
 	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 20px;
+	font-size: 24px;
 }
 
 #sidebar ul li {
@@ -32,13 +35,14 @@ html, body {
 
 #sidebar img {
 	width: 60px;
-	margin-left: 40px;
+	margin-left: 20px;
 	margin-top: 20px;
 }
 
 #sidebar .question {
-	font-size: 20px;
+	font-size: 18px;
 	width: 200px;
+	margin-top: 0px;
 	margin-left: 20px;
 	margin-bottom: 20px;
 	font-style: italic;
@@ -46,14 +50,17 @@ html, body {
 }
 
 #sidebar .answer {
-	font-size: 20px;
+	font-size: 18px;
 	width: 175px;
 	margin-left: 30px;
+	margin-top: 0px;
+	margin-bottom: 20px;
 	color: blue;
 }
 
 #social-links {
 	margin-bottom: 20px;
+	margin-top: 0px;
 }
 
 #social-links img {
@@ -66,13 +73,13 @@ html, body {
 	left: 0px;
 }
 
-@media (max-height: 830px) {
+@media (max-height: 695px) {
 	#conway {
 		display: none;
 	}
 }
 
-@media (max-height: 630px) {
+@media (max-height: 500px) {
 	.question {
 		display: none;
 	}
