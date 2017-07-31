@@ -31,8 +31,55 @@ html, body {
 }
 
 #sidebar img {
+	width: 60px;
 	margin-left: 40px;
 	margin-top: 20px;
+}
+
+#sidebar .question {
+	font-size: 20px;
+	width: 200px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	font-style: italic;
+	color: dimgrey;
+}
+
+#sidebar .answer {
+	font-size: 20px;
+	width: 175px;
+	margin-left: 30px;
+	color: blue;
+}
+
+#social-links {
+	margin-bottom: 20px;
+}
+
+#social-links img {
+	width: 32px;
+}
+
+#conway {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+}
+
+@media (max-height: 830px) {
+	#conway {
+		display: none;
+	}
+}
+
+@media (max-height: 630px) {
+	.question {
+		display: none;
+	}
+
+	.answer {
+		display: none;
+	}
 }
 
 #photo {

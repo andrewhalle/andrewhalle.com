@@ -8,7 +8,11 @@ var fileAssociations = {
 	"java.png": "java-grey.png",
 	"java-grey.png": "java.png",
 	"django-logo-positive.png": "django-logo-positive-grey.png",
-	"django-logo-positive-grey.png": "django-logo-positive.png"
+	"django-logo-positive-grey.png": "django-logo-positive.png",
+	"github-grey.png": "github-dark.png",
+	"github-dark.png": "github-grey.png",
+	"In-Black-34px-R.png": "In-2C-34px-R.png",
+	"In-2C-34px-R.png": "In-Black-34px-R.png"
 }
 
 var skills = [
@@ -68,6 +72,12 @@ function setup() {
 		$("#viewport").animate({
 			scrollTop: scrollState.anchors[index]
 		}, 1000);
+	});
+
+	$("#social-links img").hover(function() {
+		var filename = this.src.split("/");
+		filename = filename[filename.length - 1];
+		this.src = fileAssociations[filename];
 	});
 }
 
