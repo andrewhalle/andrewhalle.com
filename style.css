@@ -75,17 +75,32 @@ html, body {
 
 @media (max-height: 695px) {
 	#conway {
-		display: none;
+		display: none !important;
 	}
 }
 
 @media (max-height: 500px) {
 	.question {
-		display: none;
+		display: none !important;
 	}
 
 	.answer {
-		display: none;
+		display: none !important;
+	}
+}
+
+@media (max-width: 1000px) {
+	#sidebar {
+		width: 0px !important;
+		display: none !important;
+	}
+
+	#photo {
+		left: 0px !important;
+	}
+
+	#viewport {
+		left: 0px !important;
 	}
 }
 

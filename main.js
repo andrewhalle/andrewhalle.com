@@ -91,8 +91,9 @@ function layout() {
 
 function viewportWidth() {
 	var windowWidth = $(window).width();
-	$("#photo").css("width", (windowWidth - 300).toString() + "px");
-	$("#viewport").css("width", (windowWidth - 300).toString() + "px");
+	var sidebarWidth = $("#sidebar").width();
+	$("#photo").css("width", (windowWidth - sidebarWidth).toString() + "px");
+	$("#viewport").css("width", (windowWidth - sidebarWidth).toString() + "px");
 }
 
 function verticallyAlignCover() {
