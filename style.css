@@ -102,6 +102,10 @@ html, body {
 	#viewport {
 		left: 0px !important;
 	}
+
+	#blur {
+		left: 0px !important;
+	}
 }
 
 #photo {
