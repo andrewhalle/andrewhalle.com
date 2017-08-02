@@ -160,6 +160,8 @@ function setAnchorPositions() {
 }
 
 function renderSidebar() {
+	console.log(scrollState.anchors);
+	console.log(scrollState.position);
 	for (var i = 0; i < scrollState.anchors.length; i++) {
 		if (scrollState.anchors[i] > scrollState.position) {
 			$("#sidebar ul li").css("font-weight", "normal");
@@ -167,5 +169,7 @@ function renderSidebar() {
 			return;
 		}
 	}
+	$("#sidebar ul li").css("font-weight", "normal");
+	$($("#sidebar ul li")[scrollState.anchors.length - 1]).css("font-weight", "bold");
 }
 

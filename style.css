@@ -195,3 +195,37 @@ html, body {
 	width: 100%;
 	text-align: left;
 }
+
+#projects > p {
+	width: 75%;
+	margin: auto;
+	text-align: center;
+	font-size: 32px;
+}
+
+#projects li {
+	width: 75%;
+	margin: auto;
+	font-size: 28px;
+}
+
+#projects li p {
+	width: 100%;
+	text-align: left;
+}
+
+#playground {
+	width: 100%;
+}
+
+#playground a {
+	display: block;
+	width: 75%;
+	margin: auto;
+	text-align: center;
+	font-size: 28px;
+}
+
+#playground .space-fill {
+	height: 300px;
+}
